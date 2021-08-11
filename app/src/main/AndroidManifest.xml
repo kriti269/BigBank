@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BankingSystem">
-        <activity android:name=".PayBillActivity"></activity>
+        <activity android:name=".BalanceAdapter"></activity>
+        <activity android:name=".PayBillActivity" />
         <activity android:name=".TransferActivity" />
         <activity android:name=".WithdrawActivity" />
         <activity android:name=".DepositActivity" />

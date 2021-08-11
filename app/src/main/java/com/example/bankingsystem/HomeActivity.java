@@ -37,7 +37,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     class ButtonEvents implements View.OnClickListener{
-
         @Override
         public void onClick(View v) {
             Intent intent = null;
