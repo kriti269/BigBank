@@ -19,6 +19,7 @@ public class CheckBalanceActivity extends AppCompatActivity {
         accountTypesListView = findViewById(R.id.lvAccounts);
         txvBalance = findViewById(R.id.txvBalance);
 
+        //initializing account type list view adapter with details
         accountTypesListView.setAdapter(new BalanceAdapter(this, MainActivity.userAccounts));
         setTotalBalance();
     }
@@ -26,6 +27,7 @@ public class CheckBalanceActivity extends AppCompatActivity {
     private void setTotalBalance() {
         List<Account> userAccountsList = MainActivity.userAccounts;
         double totalBalance = 0.0;
+        //adding balance of all accounts to show total balance
         for(int i=0;i<userAccountsList.size();i++) {
             totalBalance += userAccountsList.get(i).getBalance();
         }
