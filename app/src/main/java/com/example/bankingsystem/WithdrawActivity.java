@@ -37,7 +37,7 @@ public class WithdrawActivity extends AppCompatActivity {
         txvWdSuccess = findViewById(R.id.txvWdSuccess);
         txvWdError = findViewById(R.id.txvWdError);
 
-        List<String> accountTypes = MainActivity.userAccounts.stream().map(Account::getAccountType).collect(Collectors.toList());
+        String[] accountTypes = AccountOperations.getAccountsNames(MainActivity.userAccounts);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, accountTypes);
         wdAccount.setAdapter(arrayAdapter);
 

@@ -38,7 +38,7 @@ public class DepositActivity extends AppCompatActivity {
         txvSuccess = findViewById(R.id.txvDpSuccess);
         txvError = findViewById(R.id.txvDpError);
 
-        List<String> accountTypes = MainActivity.userAccounts.stream().map(Account::getAccountType).collect(Collectors.toList());
+        String[] accountTypes = AccountOperations.getAccountsNames(MainActivity.userAccounts);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, accountTypes);
         dpAccount.setAdapter(arrayAdapter);
 
