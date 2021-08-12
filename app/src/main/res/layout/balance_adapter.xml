@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imvAccountType"
+        android:layout_width="123dp"
+        android:layout_height="72dp"
+        android:layout_weight="1"
+        app:srcCompat="@mipmap/chequing_account" />
+
+    <TextView
+        android:id="@+id/txvAccountType"
+        android:layout_width="138dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/imvAccountType"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txvAccountBalance"
+        android:layout_width="138dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@+id/imvAccountType"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</LinearLayout>
