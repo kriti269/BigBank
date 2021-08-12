@@ -75,26 +75,40 @@ public class TransferActivity extends AppCompatActivity {
                 String amountString = trAmount.getText().toString();
                 if(amountString.isEmpty())
                     txvTrError.setText("Please enter an amount to be transferred!");
-                else if(trFromAccount.getSelectedItem()=="Select Account")
+                else if(trFromAccount.getSelectedItemPosition()==0)
                     txvTrError.setText("Please select a transfer 'From Account'!");
-                else if(trToAccount.getSelectedItem()=="Select Account")
-                    txvTrError.setText("Please select a transfer 'To Account'!");
-                else if (trFromAccount.getSelectedItem() == trToAccount.getSelectedItem()) {
-                    txvTrError.setText("From and To accounts should be different!");
+                if(rdbSelf.isChecked()){
+                    if(trToAccount.getSelectedItemPosition()==0)
+                        txvTrError.setText("Please select a transfer 'To Account'!");
+                    else if(trToAccount.getSelectedItem()==trFromAccount.getSelectedItem())
+                        txvTrError.setText("From and To accounts should be different!");
+                    else{
+                        String result = AccountOperations.withdrawAmount(amountString, trFromAccount.getSelectedItem().toString());
+                        if(result.isEmpty()) {
+                            result = AccountOperations.depositAmount(amountString, trToAccount.getSelectedItem().toString());
+                            if(result.isEmpty()) {
+                                 trAmount.setText("");
+                                triggered = false;
+                                trFromAccount.setSelection(0);
+                                trToAccount.setSelection(0);
+                                txvTrSuccess.setText("Amount successfully transferred!");
+                            }
+                        }
+                        txvTrError.setText(result);
+                    }
                 }
                 else{
-                    String result = AccountOperations.withdrawAmount(amountString, trFromAccount.getSelectedItem().toString());
-                    if(result.isEmpty()) {
-                        result = AccountOperations.depositAmount(amountString, trToAccount.getSelectedItem().toString());
-                        if(result.isEmpty()) {
-                            trAmount.setText("");
-                            triggered = false;
-                            trFromAccount.setSelection(0);
-                            trToAccount.setSelection(0);
-                            txvTrSuccess.setText("Amount successfully transferred!");
-                        }
+                    String receiverAccountStr = receiverAccount.toString();
+                    String receiverNameStr = receiverName.toString();
+                    if(receiverNameStr.isEmpty()){
+                        txvTrError.setText("Please enter receiver's name!");
                     }
-                    txvTrError.setText(result);
+                    else if(receiverAccountStr.isEmpty()){
+                        txvTrError.setText("Please enter receiver's account!");
+                    }
+                    else{
+                        
+                    }
                 }
             }
         });
@@ -114,7 +128,7 @@ public class TransferActivity extends AppCompatActivity {
                     trAmount.clearFocus();
                     txvTrSuccess.setText("");
                     txvTrError.setText("");
-                    if(trToAccount.getSelectedItem() != "Select Account" &&
+                    if(trToAccount.getSelectedItemPosition()!=0 &&
                             trToAccount.getSelectedItem() == trFromAccount.getSelectedItem()){
                         txvTrError.setText("From and To accounts should be different!");
                     }
@@ -135,8 +149,8 @@ public class TransferActivity extends AppCompatActivity {
                     trAmount.clearFocus();
                     txvTrSuccess.setText("");
                     txvTrError.setText("");
-                    if (trToAccount.getSelectedItem() != "Select Account"
-                            && trFromAccount.getSelectedItem() == trToAccount.getSelectedItem()) {
+                    if(trToAccount.getSelectedItemPosition()!=0
+                        && trFromAccount.getSelectedItem() == trToAccount.getSelectedItem()){
                         txvTrError.setText("From and To accounts should be different!");
                     }
                 } else {
@@ -163,6 +177,13 @@ public class TransferActivity extends AppCompatActivity {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            txvTrSuccess.setText("");
+            txvTrError.setText("");
+            trAmount.setText("");
+            trFromAccount.setSelection(0);
+            trToAccount.setSelection(0);
+            receiverName.setText("");
+            receiverAccount.setText("");
             if(buttonView.getId()==R.id.rdbTrSelf){
                 if(isChecked){
                     receiverName.setVisibility(View.INVISIBLE);
@@ -170,12 +191,21 @@ public class TransferActivity extends AppCompatActivity {
                     txvTrRvName.setVisibility(View.INVISIBLE);
                     txvTrRvAccount.setVisibility(View.INVISIBLE);
                 }
+                else{
+                    receiverName.setVisibility(View.VISIBLE);
+                    receiverAccount.setVisibility(View.VISIBLE);
+                    txvTrRvName.setVisibility(View.VISIBLE);
+                    txvTrRvAccount.setVisibility(View.VISIBLE);
+                }
             }
             else if(buttonView.getId()==R.id.rdbTrOthers){
                 if(isChecked){
-                    trToAccount.setSelection(0);
-                    trToAccount.setEnabled(false);
+                    txvTrToAccount.setVisibility(View.INVISIBLE);
                     trToAccount.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    txvTrToAccount.setVisibility(View.VISIBLE);
+                    trToAccount.setVisibility(View.VISIBLE);
                 }
             }
         }
