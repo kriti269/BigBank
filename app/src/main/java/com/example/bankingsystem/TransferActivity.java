@@ -26,6 +26,7 @@ public class TransferActivity extends AppCompatActivity {
     Button trBack, trTransfer;
     TextView txvTrSuccess;
     TextView txvTrError;
+    boolean triggered = true;
     EditText receiverName;
     EditText receiverAccount;
     RadioButton rdbSelf;
@@ -74,15 +75,22 @@ public class TransferActivity extends AppCompatActivity {
                 String amountString = trAmount.getText().toString();
                 if(amountString.isEmpty())
                     txvTrError.setText("Please enter an amount to be transferred!");
-                else if(trFromAccount.getSelectedItem()=="Select")
+                else if(trFromAccount.getSelectedItem()=="Select Account")
                     txvTrError.setText("Please select a transfer 'From Account'!");
-                else if(trToAccount.getSelectedItem()=="Select")
+                else if(trToAccount.getSelectedItem()=="Select Account")
                     txvTrError.setText("Please select a transfer 'To Account'!");
+                else if (trFromAccount.getSelectedItem() == trToAccount.getSelectedItem()) {
+                    txvTrError.setText("From and To accounts should be different!");
+                }
                 else{
                     String result = AccountOperations.withdrawAmount(amountString, trFromAccount.getSelectedItem().toString());
                     if(result.isEmpty()) {
                         result = AccountOperations.depositAmount(amountString, trToAccount.getSelectedItem().toString());
                         if(result.isEmpty()) {
+                            trAmount.setText("");
+                            triggered = false;
+                            trFromAccount.setSelection(0);
+                            trToAccount.setSelection(0);
                             txvTrSuccess.setText("Amount successfully transferred!");
                         }
                     }
@@ -102,12 +110,14 @@ public class TransferActivity extends AppCompatActivity {
         trFromAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                trAmount.clearFocus();
-                txvTrSuccess.setText("");
-                txvTrError.setText("");
-                if(trToAccount.getSelectedItem() != "Select" &&
-                        trToAccount.getSelectedItem() == trFromAccount.getSelectedItem()){
-                    txvTrError.setText("From and To accounts should be different!");
+                if(triggered) {
+                    trAmount.clearFocus();
+                    txvTrSuccess.setText("");
+                    txvTrError.setText("");
+                    if(trToAccount.getSelectedItem() != "Select Account" &&
+                            trToAccount.getSelectedItem() == trFromAccount.getSelectedItem()){
+                        txvTrError.setText("From and To accounts should be different!");
+                    }
                 }
             }
 
@@ -121,12 +131,16 @@ public class TransferActivity extends AppCompatActivity {
         trToAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                trAmount.clearFocus();
-                txvTrSuccess.setText("");
-                txvTrError.setText("");
-                if(trToAccount.getSelectedItem() != "Select"
-                    && trFromAccount.getSelectedItem() == trToAccount.getSelectedItem()){
-                    txvTrError.setText("From and To accounts should be different!");
+                if (triggered) {
+                    trAmount.clearFocus();
+                    txvTrSuccess.setText("");
+                    txvTrError.setText("");
+                    if (trToAccount.getSelectedItem() != "Select Account"
+                            && trFromAccount.getSelectedItem() == trToAccount.getSelectedItem()) {
+                        txvTrError.setText("From and To accounts should be different!");
+                    }
+                } else {
+                    triggered = true;
                 }
             }
 

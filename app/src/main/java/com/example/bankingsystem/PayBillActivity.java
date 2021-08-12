@@ -19,6 +19,7 @@ public class PayBillActivity extends AppCompatActivity {
     //initializing utility types for spinner
     String[] utilityTypes = {"Select Utility Type", "Hydro",
             "Water", "Gas", "Phone"};
+    boolean triggered = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +44,10 @@ public class PayBillActivity extends AppCompatActivity {
         spAccount.setAdapter(aaAccountType);
 
         //set spinner on click listeners
-        spUtilityType.setOnClickListener(new PayBillClickEvents());
-        spAccount.setOnClickListener(new PayBillClickEvents());
-        subscriptionNo.setOnClickListener(new PayBillClickEvents());
-        amount.setOnClickListener(new PayBillClickEvents());
+        spUtilityType.setOnItemSelectedListener(new SpinnerItemSelectedListener());
+        spAccount.setOnItemSelectedListener(new SpinnerItemSelectedListener());
+        subscriptionNo.setOnFocusChangeListener(new EditTextFocusChangeListener());
+        amount.setOnFocusChangeListener(new EditTextFocusChangeListener());
 
         //set pay bill button on click listener
         btnPayBill.setOnClickListener(new View.OnClickListener() {
@@ -55,37 +56,68 @@ public class PayBillActivity extends AppCompatActivity {
                 String amountString = String.valueOf(amount.getText());
                 String selectedAccount = spAccount.getSelectedItem().toString();
                 payBillError.setText("");
-                if(spUtilityType.getSelectedItem().toString().equals("Select Utility Type")) {
-                    payBillError.setText("Please select utility type to Pay Bill.");
+                if (spUtilityType.getSelectedItem().toString().equals("Select Utility Type")) {
+                    payBillError.setText("Please select utility type to Pay Bill!");
                     return;
                 }
-                if(String.valueOf(subscriptionNo.getText()).equals("")) {
-                    payBillError.setText("Please enter Subscription Number to Pay Bill.");
+                if (subscriptionNo.getText().toString().isEmpty()) {
+                    payBillError.setText("Please enter Subscription Number to Pay Bill!");
                     return;
                 }
-                if(selectedAccount.equals("Select Account Type")) {
-                    payBillError.setText("Please select Account Type to Pay Bill From.");
+                if (selectedAccount.equals("Select Account Type")) {
+                    payBillError.setText("Please select Account Type to Pay Bill From!");
                     return;
                 }
-                if(amountString.equals("")) {
-                    payBillError.setText("Please enter Subscription Number to Pay Bill.");
+                if (amountString.equals("")) {
+                    payBillError.setText("Please enter Subscription Number to Pay Bill!");
                     return;
                 }
+                Bill bill = new Bill(AccountOperations.getAccount(selectedAccount),
+                        subscriptionNo.getText().toString(), Double.parseDouble(amountString));
+                MainActivity.userBills.add(bill);
                 String result = AccountOperations.withdrawAmount(amountString, selectedAccount);
-                if(result.isEmpty()) {
+                if (result.isEmpty()) {
+                    amount.setText("");
+                    subscriptionNo.setText("");
+                    triggered = false;
+                    spUtilityType.setSelection(0);
+                    triggered = false;
+                    spAccount.setSelection(0);
                     payBillSuccess.setText("Bill successfully paid!");
+                } else {
+                    MainActivity.userBills.remove(bill);
                 }
                 payBillError.setText(result);
             }
         });
     }
 
-    //edit text and spinner click event listener
-    private class PayBillClickEvents implements View.OnClickListener {
+    //edit text focus changed event listener
+    private class EditTextFocusChangeListener implements View.OnFocusChangeListener {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            payBillError.setText("");
+            payBillSuccess.setText("");
+        }
+    }
+
+    //spinner item select event listener
+    private class SpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (triggered) {
+                subscriptionNo.clearFocus();
+                amount.clearFocus();
+                payBillError.setText("");
+                payBillSuccess.setText("");
+            } else {
+                triggered = true;
+            }
+        }
 
         @Override
-        public void onClick(View v) {
-            payBillError.setText("");
+        public void onNothingSelected(AdapterView<?> parent) {
+
         }
     }
 }
