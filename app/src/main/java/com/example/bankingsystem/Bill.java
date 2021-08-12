@@ -1,7 +1,15 @@
 package com.example.bankingsystem;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Bill {
     public String utilityType;
@@ -57,15 +65,43 @@ public class Bill {
 }
 
 class BillOperations {
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<Bill> getPreviousBills(List<Bill> bills, String utilityType) {
-
+        //filter bill paid by logged in user
+        bills = bills.stream()
+                .filter(bill -> bill.getUseForFuture() == true &&
+                        bill.getAccount().getUser() == MainActivity.loggedInUser)
+                .collect(Collectors.toList());
+        Collections.sort(bills, new Comparator<Bill>() {
+            public int compare(Bill o1, Bill o2) {
+                if (o1.getBillDate() == null || o2.getBillDate() == null)
+                    return 0;
+                return o2.getBillDate().compareTo(o1.getBillDate());
+            }
+        });
+        List<Bill> previousBills = new ArrayList<Bill>();
+        for(int i=0;i<bills.size();i++) {
+            Bill bill = bills.get(i);
+            if(bill.getUtilityType().equals(utilityType)) {
+                boolean exists = false;
+                for(int j=0; j<previousBills.size();j++) {
+                    if(previousBills.get(j).getSubscriptionNo().equals(bill.getSubscriptionNo())) {
+                        exists = true;
+                    }
+                }
+                if(!exists) {
+                    previousBills.add(bill);
+                }
+            }
+        }
+        return previousBills;
     }
 
     public static String[] getPreviousBillSubsNo(List<Bill> bills) {
         int arraySize = bills.size();
         String[] billSubsName = new String[arraySize+1];
         //add default option
-        billSubsName[0] = "Select Subscription Number";
+        billSubsName[0] = "Select Subs Number";
         for (int i=1; i<=arraySize; i++) {
             billSubsName[i] = bills.get(i-1).getSubscriptionNo();
         }

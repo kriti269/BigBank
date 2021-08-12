@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txvTrToAccount" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/txvSubsNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="51dp"
@@ -84,7 +84,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/txvSubsNo" />
 
     <Spinner
         android:id="@+id/spTrFromAccount"
@@ -92,7 +92,7 @@
         android:layout_height="33dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="28dp"
-        app:layout_constraintStart_toEndOf="@+id/textView13"
+        app:layout_constraintStart_toEndOf="@+id/txvSubsNo"
         app:layout_constraintTop_toBottomOf="@+id/extTrAmount" />
 
     <Spinner
