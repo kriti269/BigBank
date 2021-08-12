@@ -79,20 +79,15 @@ public class TransferActivity extends AppCompatActivity {
                 else if(trToAccount.getSelectedItem()=="Select")
                     txvTrError.setText("Please select a transfer 'To Account'!");
                 else{
-                    double amount = Double.parseDouble(amountString);
-                    Account accountFrom = getAccount(trFromAccount.getSelectedItem().toString());
-                    Account accountTo = getAccount(trToAccount.getSelectedItem().toString());
-                    if(accountFrom.getBalance()<amount){
-                        txvTrError.setText("Balance too low!");
+                    String result = AccountOperations.withdrawAmount(amountString, trFromAccount.getSelectedItem().toString());
+                    if(result.isEmpty()) {
+                        result = AccountOperations.depositAmount(amountString, trToAccount.getSelectedItem().toString());
+                        if(result.isEmpty()) {
+                            txvTrSuccess.setText("Amount successfully transferred!");
+                        }
                     }
-                    else{
-                        accountFrom.setBalance(accountFrom.getBalance()-amount);
-                        accountTo.setBalance(accountTo.getBalance()+amount);
-                        txvTrError.setText("");
-                        txvTrSuccess.setText("Amount successfully transferred!");
-                    }
+                    txvTrError.setText(result);
                 }
-
             }
         });
 
@@ -170,13 +165,5 @@ public class TransferActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    private static Account getAccount(String accountType){
-        for(Account account: MainActivity.userAccounts){
-            if(accountType==account.getAccountType())
-                return account;
-        }
-        return null;
     }
 }

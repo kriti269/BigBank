@@ -73,18 +73,12 @@ public class WithdrawActivity extends AppCompatActivity {
                 if(amountString.isEmpty())
                     txvWdError.setText("Please enter an amount to be withdrawn!");
                 else{
-                    double amount = Double.parseDouble(amountString);
-                    Account account = getAccount(wdAccount.getSelectedItem().toString());
-                    if(account.getBalance()<amount){
-                        txvWdError.setText("Balance too low!");
-                    }
-                    else{
-                        account.setBalance(account.getBalance()-amount);
-                        txvWdError.setText("");
+                    String result = AccountOperations.withdrawAmount(amountString, wdAccount.getSelectedItem().toString());
+                    if(result.isEmpty()) {
                         txvWdSuccess.setText("Amount successfully withdrawn!");
                     }
+                    txvWdError.setText(result);
                 }
-
             }
         });
 
@@ -95,13 +89,5 @@ public class WithdrawActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private static Account getAccount(String accountType){
-        for(Account account: MainActivity.userAccounts){
-            if(accountType==account.getAccountType())
-                return account;
-        }
-        return null;
     }
 }

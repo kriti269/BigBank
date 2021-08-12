@@ -10,9 +10,9 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="32dp"
-        android:text="View Account Balance"
+        android:layout_marginStart="114dp"
+        android:layout_marginTop="44dp"
+        android:text="Account Balance"
         android:textColor="#3F51B5"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -21,8 +21,8 @@
 
     <ListView
         android:id="@+id/lvAccounts"
-        android:layout_width="295dp"
-        android:layout_height="223dp"
+        android:layout_width="328dp"
+        android:layout_height="246dp"
         android:layout_marginStart="33dp"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:text="Total Balance:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lvAccounts" />
@@ -41,9 +41,9 @@
     <TextView
         android:id="@+id/txvBalance"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="349dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="400dp"
         app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

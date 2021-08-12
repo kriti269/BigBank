@@ -62,4 +62,38 @@ class AccountOperations
         }
         return accountNames;
     }
+
+    public static Account getAccount(String accountType){
+        for(Account account: MainActivity.userAccounts){
+            if(accountType==account.getAccountType())
+                return account;
+        }
+        return null;
+    }
+
+    public static String withdrawAmount(String amountString, String AccountType) {
+        double amount = Double.parseDouble(amountString);
+        Account account = getAccount(AccountType);
+        if(account == null) {
+            return "Unable to find Account information";
+        }
+        if(account == null || account.getBalance() < amount){
+            return "Balance too low!";
+        }
+        else{
+            account.setBalance(account.getBalance()-amount);
+        }
+        return "";
+    }
+
+    public static String depositAmount(String amountString, String accountType) {
+        double amount = Double.parseDouble(amountString);
+        Account accountTo = getAccount(accountType);
+        if(accountTo == null) {
+            return "Unable to find Account information";
+        } else {
+            accountTo.setBalance(accountTo.getBalance() + amount);
+        }
+        return "";
+    }
 }
