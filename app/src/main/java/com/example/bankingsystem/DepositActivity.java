@@ -24,13 +24,13 @@ public class DepositActivity extends AppCompatActivity {
     Button dpBack, dpDeposit;
     TextView txvSuccess;
     TextView txvError;
+    boolean triggered = true;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deposit);
-
         dpAmount = findViewById(R.id.extDpAmount);
         dpAccount = findViewById(R.id.spDpAccount);
         dpBack = findViewById(R.id.btnDpBack);
@@ -38,7 +38,7 @@ public class DepositActivity extends AppCompatActivity {
         txvSuccess = findViewById(R.id.txvDpSuccess);
         txvError = findViewById(R.id.txvDpError);
 
-        List<String> accountTypes = MainActivity.userAccounts.stream().map(Account::getAccountType).collect(Collectors.toList());
+        String[] accountTypes = AccountOperations.getAccountsNames(MainActivity.userAccounts);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, accountTypes);
         dpAccount.setAdapter(arrayAdapter);
 
@@ -53,9 +53,13 @@ public class DepositActivity extends AppCompatActivity {
         dpAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                dpAmount.clearFocus();
-                txvError.setText("");
-                txvSuccess.setText("");
+                if(triggered) {
+                    dpAmount.clearFocus();
+                    txvError.setText("");
+                    txvSuccess.setText("");
+                } else {
+                    triggered = true;
+                }
             }
 
             @Override
@@ -77,7 +81,10 @@ public class DepositActivity extends AppCompatActivity {
                     String result = AccountOperations.depositAmount(amountString,
                             dpAccount.getSelectedItem().toString());
                     if(result.isEmpty()) {
+                        dpAmount.setText("");
                         txvSuccess.setText("Amount successfully deposited!");
+                        triggered = false;
+                        dpAccount.setSelection(0);
                     }
                     txvError.setText(result);
                 }
