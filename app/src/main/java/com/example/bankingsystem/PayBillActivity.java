@@ -7,15 +7,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.Date;
 
 public class PayBillActivity extends AppCompatActivity {
     Spinner spUtilityType, spAccount;
     EditText subscriptionNo, amount;
     Button btnPayBill;
     TextView payBillError, payBillSuccess;
+    CheckBox saveForFuture;
     //initializing utility types for spinner
     String[] utilityTypes = {"Select Utility Type", "Hydro",
             "Water", "Gas", "Phone"};
@@ -32,6 +36,7 @@ public class PayBillActivity extends AppCompatActivity {
         btnPayBill = findViewById(R.id.btnPayUtilityBill);
         payBillError = findViewById(R.id.txvPayBillError);
         payBillSuccess = findViewById(R.id.txvPayBillSuccess);
+        saveForFuture = findViewById(R.id.cbSaveForFuture);
 
         //initialize spinner for Utility types
         ArrayAdapter aaUtilityType = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, utilityTypes);
@@ -53,6 +58,8 @@ public class PayBillActivity extends AppCompatActivity {
         btnPayBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                payBillError.setText("");
+                payBillSuccess.setText("");
                 String amountString = String.valueOf(amount.getText());
                 String selectedAccount = spAccount.getSelectedItem().toString();
                 payBillError.setText("");
@@ -64,24 +71,26 @@ public class PayBillActivity extends AppCompatActivity {
                     payBillError.setText("Please enter Subscription Number to Pay Bill!");
                     return;
                 }
-                if (selectedAccount.equals("Select Account Type")) {
-                    payBillError.setText("Please select Account Type to Pay Bill From!");
+                if (selectedAccount.equals("Select Account")) {
+                    payBillError.setText("Please select Account to Pay Bill From!");
                     return;
                 }
                 if (amountString.equals("")) {
-                    payBillError.setText("Please enter Subscription Number to Pay Bill!");
+                    payBillError.setText("Please enter amount to Pay Bill!");
                     return;
                 }
-                Bill bill = new Bill(AccountOperations.getAccount(selectedAccount),
-                        subscriptionNo.getText().toString(), Double.parseDouble(amountString));
+                Bill bill = new Bill(spUtilityType.getSelectedItem().toString(),
+                        AccountOperations.getAccount(selectedAccount),
+                        subscriptionNo.getText().toString(), Double.parseDouble(amountString),
+                        new Date(), saveForFuture.isChecked());
                 MainActivity.userBills.add(bill);
                 String result = AccountOperations.withdrawAmount(amountString, selectedAccount);
                 if (result.isEmpty()) {
+                    saveForFuture.setChecked(false);
                     amount.setText("");
                     subscriptionNo.setText("");
                     triggered = false;
                     spUtilityType.setSelection(0);
-                    triggered = false;
                     spAccount.setSelection(0);
                     payBillSuccess.setText("Bill successfully paid!");
                 } else {
@@ -111,7 +120,9 @@ public class PayBillActivity extends AppCompatActivity {
                 payBillError.setText("");
                 payBillSuccess.setText("");
             } else {
-                triggered = true;
+                if(parent.getId() == spUtilityType.getId()) {
+                    triggered = true;
+                }
             }
         }
 
