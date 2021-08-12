@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     static List<Account> accountsList;
     static User loggedInUser;
     static List<Account> userAccounts = new ArrayList<Account>();
+    static List<Bill> userBills = new ArrayList<Bill>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

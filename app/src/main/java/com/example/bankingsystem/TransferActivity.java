@@ -26,6 +26,7 @@ public class TransferActivity extends AppCompatActivity {
     Button trBack, trTransfer;
     TextView txvTrSuccess;
     TextView txvTrError;
+    boolean triggered = true;
     EditText receiverName;
     EditText receiverAccount;
     RadioButton rdbSelf;
@@ -86,6 +87,10 @@ public class TransferActivity extends AppCompatActivity {
                         if(result.isEmpty()) {
                             result = AccountOperations.depositAmount(amountString, trToAccount.getSelectedItem().toString());
                             if(result.isEmpty()) {
+                                 trAmount.setText("");
+                                triggered = false;
+                                trFromAccount.setSelection(0);
+                                trToAccount.setSelection(0);
                                 txvTrSuccess.setText("Amount successfully transferred!");
                             }
                         }
@@ -119,12 +124,14 @@ public class TransferActivity extends AppCompatActivity {
         trFromAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                trAmount.clearFocus();
-                txvTrSuccess.setText("");
-                txvTrError.setText("");
-                if(trToAccount.getSelectedItemPosition()!=0 &&
-                        trToAccount.getSelectedItem() == trFromAccount.getSelectedItem()){
-                    txvTrError.setText("From and To accounts should be different!");
+                if(triggered) {
+                    trAmount.clearFocus();
+                    txvTrSuccess.setText("");
+                    txvTrError.setText("");
+                    if(trToAccount.getSelectedItemPosition()!=0 &&
+                            trToAccount.getSelectedItem() == trFromAccount.getSelectedItem()){
+                        txvTrError.setText("From and To accounts should be different!");
+                    }
                 }
             }
 
@@ -138,12 +145,16 @@ public class TransferActivity extends AppCompatActivity {
         trToAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                trAmount.clearFocus();
-                txvTrSuccess.setText("");
-                txvTrError.setText("");
-                if(trToAccount.getSelectedItemPosition()!=0
-                    && trFromAccount.getSelectedItem() == trToAccount.getSelectedItem()){
-                    txvTrError.setText("From and To accounts should be different!");
+                if (triggered) {
+                    trAmount.clearFocus();
+                    txvTrSuccess.setText("");
+                    txvTrError.setText("");
+                    if(trToAccount.getSelectedItemPosition()!=0
+                        && trFromAccount.getSelectedItem() == trToAccount.getSelectedItem()){
+                        txvTrError.setText("From and To accounts should be different!");
+                    }
+                } else {
+                    triggered = true;
                 }
             }
 

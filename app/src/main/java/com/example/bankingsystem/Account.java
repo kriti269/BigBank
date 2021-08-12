@@ -56,7 +56,7 @@ class AccountOperations
         int arraySize = accounts.size();
         String[] accountNames = new String[arraySize+1];
         //add default option
-        accountNames[0] = "Select Account Type";
+        accountNames[0] = "Select Account";
         for (int i=1; i<=arraySize; i++) {
             accountNames[i] = accounts.get(i-1).getAccountType();
         }
@@ -75,7 +75,7 @@ class AccountOperations
         double amount = Double.parseDouble(amountString);
         Account account = getAccount(AccountType);
         if(account == null) {
-            return "Unable to find Account information";
+            return "Please select valid account for withdrawal";
         }
         if(account == null || account.getBalance() < amount){
             return "Balance too low!";
@@ -88,11 +88,11 @@ class AccountOperations
 
     public static String depositAmount(String amountString, String accountType) {
         double amount = Double.parseDouble(amountString);
-        Account accountTo = getAccount(accountType);
-        if(accountTo == null) {
-            return "Unable to find Account information";
+        Account account = getAccount(accountType);
+        if(account == null) {
+            return "Please select valid account to deposit";
         } else {
-            accountTo.setBalance(accountTo.getBalance() + amount);
+            account.setBalance(account.getBalance() + amount);
         }
         return "";
     }

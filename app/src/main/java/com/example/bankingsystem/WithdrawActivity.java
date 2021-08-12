@@ -21,8 +21,8 @@ public class WithdrawActivity extends AppCompatActivity {
     EditText wdAmount;
     Spinner wdAccount;
     Button wdBack, wdWithdraw;
-    TextView txvWdSuccess;
-    TextView txvWdError;
+    TextView txvWdSuccess, txvWdError;
+    boolean triggered = true;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -52,9 +52,13 @@ public class WithdrawActivity extends AppCompatActivity {
         wdAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                wdAmount.clearFocus();
-                txvWdError.setText("");
-                txvWdSuccess.setText("");
+                if(triggered) {
+                    wdAmount.clearFocus();
+                    txvWdError.setText("");
+                    txvWdSuccess.setText("");
+                } else {
+                    triggered = true;
+                }
             }
 
             @Override
@@ -75,6 +79,9 @@ public class WithdrawActivity extends AppCompatActivity {
                 else{
                     String result = AccountOperations.withdrawAmount(amountString, wdAccount.getSelectedItem().toString());
                     if(result.isEmpty()) {
+                        wdAmount.setText("");
+                        triggered = false;
+                        wdAccount.setSelection(0);
                         txvWdSuccess.setText("Amount successfully withdrawn!");
                     }
                     txvWdError.setText(result);

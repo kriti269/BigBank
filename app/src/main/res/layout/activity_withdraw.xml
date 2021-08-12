@@ -61,7 +61,7 @@
         android:layout_width="208dp"
         android:layout_height="49dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/extWdAmount" />
 
@@ -94,26 +94,27 @@
         app:layout_constraintTop_toBottomOf="@+id/spWdAccount" />
 
     <TextView
-        android:id="@+id/txvWdSuccess"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="337dp"
-        android:textColor="#43A047"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/txvWdError"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="404dp"
+        android:layout_width="362dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="7dp"
         android:textColor="#E53935"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txvWdSuccess" />
+
+    <TextView
+        android:id="@+id/txvWdSuccess"
+        android:layout_width="298dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="77dp"
+        android:textColor="#43A047"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spWdAccount" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
