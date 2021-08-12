@@ -14,18 +14,18 @@
         android:layout_marginTop="37dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintStart_toEndOf="@+id/txvTrRvName"
         app:layout_constraintTop_toBottomOf="@+id/spAccount" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/txvTrRvName"
         android:layout_width="110dp"
         android:layout_height="25dp"
         android:layout_marginStart="22dp"
         android:layout_marginTop="52dp"
         android:text="Enter Amount:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/txvTrToAccount" />
 
     <Spinner
         android:id="@+id/spAccount"
@@ -33,7 +33,7 @@
         android:layout_height="34dp"
         android:layout_marginStart="33dp"
         android:layout_marginTop="37dp"
-        app:layout_constraintStart_toEndOf="@+id/textView14"
+        app:layout_constraintStart_toEndOf="@+id/txvTrToAccount"
         app:layout_constraintTop_toBottomOf="@+id/extSubscriptionNo" />
 
     <TextView
@@ -91,7 +91,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spUtilityType" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/txvTrToAccount"
         android:layout_width="110dp"
         android:layout_height="25dp"
         android:layout_marginStart="22dp"
@@ -118,7 +118,7 @@
         android:layout_marginTop="40dp"
         android:text="Save For Future"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/txvTrRvName" />
 
     <TextView
         android:id="@+id/txvPayBillError"
