@@ -8,25 +8,25 @@
 
     <TextView
         android:id="@+id/txvPayBillSuccess"
-        android:layout_width="344dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="283dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="11dp"
         android:textColor="#43A047"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txvPayBillError" />
+        app:layout_constraintTop_toBottomOf="@+id/cbSaveForFuture" />
 
     <EditText
         android:id="@+id/extAmount"
-        android:layout_width="210dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="214dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/txvTrRvName"
+        app:layout_constraintStart_toEndOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/spAccount" />
 
     <TextView
@@ -34,13 +34,13 @@
         android:layout_width="127dp"
         android:layout_height="31dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:text="Enter Amount:"
         android:textColor="#A93949AB"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txvTrToAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <Spinner
         android:id="@+id/spAccount"
@@ -80,7 +80,7 @@
 
     <Spinner
         android:id="@+id/spUtilityType"
-        android:layout_width="207dp"
+        android:layout_width="203dp"
         android:layout_height="34dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
@@ -128,33 +128,33 @@
         android:id="@+id/btnPayUtilityBill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="8dp"
         android:text="Pay Bill"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txvPayBillSuccess" />
+        app:layout_constraintTop_toBottomOf="@+id/txvPayBillError" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/cbSaveForFuture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="22dp"
         android:text="Save For Future"
         android:textColor="#A93949AB"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txvTrRvName" />
+        app:layout_constraintTop_toBottomOf="@+id/extAmount" />
 
     <TextView
         android:id="@+id/txvPayBillError"
         android:layout_width="376dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
         android:textColor="#E53935"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintTop_toBottomOf="@+id/txvPayBillSuccess" />
 </androidx.constraintlayout.widget.ConstraintLayout>
