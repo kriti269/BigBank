@@ -74,11 +74,12 @@ public class DepositActivity extends AppCompatActivity {
                 if(amountString.isEmpty())
                     txvError.setText("Please enter an amount to be deposited!");
                 else{
-                    double amount = Double.parseDouble(amountString);
-                    Account account = getAccount(dpAccount.getSelectedItem().toString());
-                    account.setBalance(account.getBalance()+amount);
-                    txvError.setText("");
-                    txvSuccess.setText("Amount successfully deposited!");
+                    String result = AccountOperations.depositAmount(amountString,
+                            dpAccount.getSelectedItem().toString());
+                    if(result.isEmpty()) {
+                        txvSuccess.setText("Amount successfully deposited!");
+                    }
+                    txvError.setText(result);
                 }
 
             }
@@ -92,13 +93,5 @@ public class DepositActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private static Account getAccount(String accountType){
-        for(Account account: MainActivity.userAccounts){
-            if(accountType==account.getAccountType())
-                return account;
-        }
-        return null;
     }
 }

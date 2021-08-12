@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".PayBillActivity">
 
+    <TextView
+        android:id="@+id/txvPayBillSuccess"
+        android:layout_width="344dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txvPayBillError" />
+
     <EditText
         android:id="@+id/extAmount"
         android:layout_width="213dp"
@@ -105,10 +114,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="156dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="3dp"
         android:text="Pay Bill"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txvPayBillError" />
+        app:layout_constraintTop_toBottomOf="@+id/txvPayBillSuccess" />
 
     <CheckBox
         android:id="@+id/checkBox"
