@@ -19,10 +19,14 @@ import java.util.Map;
 public class BalanceAdapter extends BaseAdapter {
     List<Account> accounts = new ArrayList<Account>();
     LayoutInflater inflater;
+    //creating map for account types list and images id
     Map<String, Integer> accountTypeList;
 
     public BalanceAdapter(Context context, List<Account> accountList) {
+        //initializing user account types list
         this.initializeAccountTypeList();
+        //setting the accounts from the list of
+        //account available for logged in user
         this.accounts = accountList;
         inflater = LayoutInflater.from(context);
     }
@@ -48,14 +52,17 @@ public class BalanceAdapter extends BaseAdapter {
         if (view == null || view.getTag() == null) {
             view = inflater.inflate(R.layout.balance_adapter, null);
             holder = new ViewHolder();
+            //setting up attributes for the view
             holder.accountTypeImg = view.findViewById(R.id.imvAccountType);
             holder.name = view.findViewById(R.id.txvAccountType);
             holder.price = view.findViewById(R.id.txvAccountBalance);
             view.setTag(holder);
 
         } else
+            //setting up view holder
             holder = (ViewHolder) view.getTag();
 
+        //getting account type details for view
         String accountType = accounts.get(i).getAccountType();
         holder.accountTypeImg.setImageResource(accountTypeList.get(accountType));
         holder.name.setText(accountType);
@@ -70,6 +77,8 @@ public class BalanceAdapter extends BaseAdapter {
     }
 
     private void initializeAccountTypeList() {
+        //initializing user account type with
+        // account type names and relevant images
         accountTypeList = new HashMap<String, Integer>();
         accountTypeList.put("Savings", R.mipmap.saving_account);
         accountTypeList.put("Checking", R.mipmap.chequing_account);
