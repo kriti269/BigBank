@@ -7,49 +7,18 @@
     tools:context=".PayBillActivity">
 
     <TextView
-        android:id="@+id/txvPayBillSuccess"
-        android:layout_width="283dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="11dp"
-        android:textColor="#43A047"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbSaveForFuture" />
-
-    <EditText
-        android:id="@+id/extAmount"
-        android:layout_width="214dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textView15"
-        app:layout_constraintTop_toBottomOf="@+id/spAccount" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="127dp"
-        android:layout_height="31dp"
+        android:id="@+id/txvSelectSubsNo"
+        android:layout_width="144dp"
+        android:layout_height="53dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="32dp"
-        android:text="Enter Amount:"
+        android:layout_marginTop="12dp"
+        android:text="Select Subs Number:"
         android:textColor="#A93949AB"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-    <Spinner
-        android:id="@+id/spAccount"
-        android:layout_width="206dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/extSubscriptionNo" />
+        app:layout_constraintTop_toBottomOf="@+id/chkPreviousBill" />
 
     <TextView
         android:id="@+id/textView10"
@@ -82,17 +51,73 @@
         android:id="@+id/spUtilityType"
         android:layout_width="203dp"
         android:layout_height="34dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
+    <EditText
+        android:id="@+id/extSubscriptionNo"
+        android:layout_width="207dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="132dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/txvSubsNo"
+        app:layout_constraintTop_toBottomOf="@+id/spUtilityType" />
+
     <TextView
-        android:id="@+id/textView13"
-        android:layout_width="153dp"
-        android:layout_height="52dp"
+        android:id="@+id/txvPayBillError"
+        android:layout_width="376dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="3dp"
+        android:textColor="#E53935"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txvPayBillSuccess" />
+
+    <Spinner
+        android:id="@+id/spAccount"
+        android:layout_width="203dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toEndOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/extSubscriptionNo" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="127dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="36dp"
+        android:text="Enter Amount:"
+        android:textColor="#A93949AB"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <Spinner
+        android:id="@+id/spPreviousBills"
+        android:layout_width="209dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@+id/txvSelectSubsNo"
+        app:layout_constraintTop_toBottomOf="@+id/chkPreviousBill" />
+
+    <TextView
+        android:id="@+id/txvSubsNo"
+        android:layout_width="150dp"
+        android:layout_height="46dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="132dp"
         android:text="Subscription Number:"
         android:textColor="#A93949AB"
         android:textSize="18sp"
@@ -100,61 +125,74 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-    <EditText
-        android:id="@+id/extSubscriptionNo"
-        android:layout_width="206dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="44dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/spUtilityType" />
-
     <TextView
         android:id="@+id/textView14"
         android:layout_width="133dp"
         android:layout_height="24dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:text="Select Account:"
         android:textColor="#A93949AB"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/txvSubsNo" />
 
-    <Button
-        android:id="@+id/btnPayUtilityBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="8dp"
-        android:text="Pay Bill"
+    <TextView
+        android:id="@+id/txvPayBillSuccess"
+        android:layout_width="283dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="73dp"
+        android:textColor="#43A047"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txvPayBillError" />
+        app:layout_constraintTop_toBottomOf="@+id/cbSaveForFuture" />
 
     <CheckBox
         android:id="@+id/cbSaveForFuture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
         android:text="Save For Future"
         android:textColor="#A93949AB"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/extAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-    <TextView
-        android:id="@+id/txvPayBillError"
-        android:layout_width="376dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="15dp"
-        android:textColor="#E53935"
-        android:textSize="18sp"
-        android:textStyle="bold"
+    <Button
+        android:id="@+id/btnPayUtilityBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="16dp"
+        android:text="Pay Bill"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txvPayBillSuccess" />
+        app:layout_constraintTop_toBottomOf="@+id/txvPayBillError" />
+
+    <CheckBox
+        android:id="@+id/chkPreviousBill"
+        android:layout_width="217dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="16dp"
+        android:text="Select from Previous Bills"
+        android:textColor="#A93949AB"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spUtilityType" />
+
+    <EditText
+        android:id="@+id/extAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/spAccount" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
