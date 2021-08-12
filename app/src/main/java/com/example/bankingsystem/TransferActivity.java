@@ -77,49 +77,66 @@ public class TransferActivity extends AppCompatActivity {
                     txvTrError.setText("Please enter an amount to be transferred!");
                 else if(trFromAccount.getSelectedItemPosition()==0)
                     txvTrError.setText("Please select a transfer 'From Account'!");
-                if(rdbSelf.isChecked()){
-                    if(trToAccount.getSelectedItemPosition()==0)
-                        txvTrError.setText("Please select a transfer 'To Account'!");
-                    else if(trToAccount.getSelectedItem()==trFromAccount.getSelectedItem())
-                        txvTrError.setText("From and To accounts should be different!");
-                    else{
-                        String result = AccountOperations.withdrawAmount(amountString, trFromAccount.getSelectedItem().toString());
-                        if(result.isEmpty()) {
-                            result = AccountOperations.depositAmount(amountString, trToAccount.getSelectedItem().toString());
+                else{
+                    if(rdbSelf.isChecked()){
+                        if(trToAccount.getSelectedItemPosition()==0)
+                            txvTrError.setText("Please select a transfer 'To Account'!");
+                        else if(trToAccount.getSelectedItem()==trFromAccount.getSelectedItem())
+                            txvTrError.setText("From and To accounts should be different!");
+                        else{
+                            String result = AccountOperations.withdrawAmount(amountString, trFromAccount.getSelectedItem().toString());
                             if(result.isEmpty()) {
-                                 trAmount.setText("");
-                                triggered = false;
-                                trFromAccount.setSelection(0);
-                                trToAccount.setSelection(0);
-                                txvTrSuccess.setText("Amount successfully transferred!");
+                                result = AccountOperations.depositAmount(amountString, trToAccount.getSelectedItem().toString());
+                                if(result.isEmpty()) {
+                                     trAmount.setText("");
+                                    triggered = false;
+                                    trFromAccount.setSelection(0);
+                                    trToAccount.setSelection(0);
+                                    txvTrSuccess.setText("Amount successfully transferred!");
+                                }
+                            }
+                            txvTrError.setText(result);
+                        }
+                    }
+                    else {
+                        String receiverAccountStr = receiverAccount.getText().toString();
+                        String receiverNameStr = receiverName.getText().toString();
+                        if (receiverNameStr.isEmpty()) {
+                            txvTrError.setText("Please enter receiver's name!");
+                        } else if (receiverAccountStr.isEmpty()) {
+                            txvTrError.setText("Please enter receiver's account!");
+                        } else {
+                            if (!AccountOperations.checkUser(receiverNameStr)) {
+                                txvTrError.setText("Receiver does not exist!");
+                            } else if (!AccountOperations.checkAccount(receiverAccountStr)) {
+                                txvTrError.setText("Receiver account does not exist!");
+                            } else if (!AccountOperations.checkUserAccount(receiverNameStr, receiverAccountStr)) {
+                                txvTrError.setText("Receiver name and account does not exist!");
+                            } else {
+                                String result = AccountOperations.withdrawAmount(amountString, trFromAccount.getSelectedItem().toString());
+                                if (result.isEmpty()) {
+                                    result = AccountOperations.depositUserAmount(amountString, receiverAccountStr);
+                                    if (result.isEmpty()) {
+                                        trAmount.setText("");
+                                        triggered = false;
+                                        trFromAccount.setSelection(0);
+                                        trToAccount.setSelection(0);
+                                        receiverAccount.setText("");
+                                        receiverName.setText("");
+                                        txvTrSuccess.setText("Amount successfully transferred!");
+                                    }
+                                }
+                                txvTrError.setText(result);
                             }
                         }
-                        txvTrError.setText(result);
-                    }
-                }
-                else{
-                    String receiverAccountStr = receiverAccount.toString();
-                    String receiverNameStr = receiverName.toString();
-                    if(receiverNameStr.isEmpty()){
-                        txvTrError.setText("Please enter receiver's name!");
-                    }
-                    else if(receiverAccountStr.isEmpty()){
-                        txvTrError.setText("Please enter receiver's account!");
-                    }
-                    else{
-                        
                     }
                 }
             }
         });
 
-        trAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                txvTrError.setText("");
-                txvTrSuccess.setText("");
-            }
-        });
+        trAmount.setOnFocusChangeListener(new InputFocusChangeEvents());
+        receiverAccount.setOnFocusChangeListener(new InputFocusChangeEvents());
+        receiverName.setOnFocusChangeListener(new InputFocusChangeEvents());
 
         trFromAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -173,7 +190,18 @@ public class TransferActivity extends AppCompatActivity {
         });
     }
 
-    public class RadioButtonEvent implements CompoundButton.OnCheckedChangeListener{
+    private class InputFocusChangeEvents implements View.OnFocusChangeListener {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            txvTrError.setText("");
+            txvTrSuccess.setText("");
+        }
+    }
+
+
+
+    private class RadioButtonEvent implements CompoundButton.OnCheckedChangeListener {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
