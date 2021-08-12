@@ -1,5 +1,8 @@
 package com.example.bankingsystem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Account {
     public User user;
     public String accountId;
@@ -43,5 +46,20 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+}
+
+//class for account related operations
+class AccountOperations
+{
+    public static String[] getAccountsNames(List<Account> accounts) {
+        int arraySize = accounts.size();
+        String[] accountNames = new String[arraySize+1];
+        //add default option
+        accountNames[0] = "Select Account Type";
+        for (int i=1; i<=arraySize; i++) {
+            accountNames[i] = accounts.get(i-1).getAccountType();
+        }
+        return accountNames;
     }
 }
