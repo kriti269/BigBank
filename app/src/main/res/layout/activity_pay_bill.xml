@@ -26,7 +26,7 @@
         android:layout_marginTop="28dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintStart_toEndOf="@+id/txvTrRvName"
         app:layout_constraintTop_toBottomOf="@+id/spAccount" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/txvTrToAccount" />
 
     <Spinner
         android:id="@+id/spAccount"
@@ -144,7 +144,7 @@
         android:textColor="#A93949AB"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/txvTrRvName" />
 
     <TextView
         android:id="@+id/txvPayBillError"

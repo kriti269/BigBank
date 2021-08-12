@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,6 +27,13 @@ public class TransferActivity extends AppCompatActivity {
     TextView txvTrSuccess;
     TextView txvTrError;
     boolean triggered = true;
+    EditText receiverName;
+    EditText receiverAccount;
+    RadioButton rdbSelf;
+    RadioButton rdbOthers;
+    TextView txvTrToAccount;
+    TextView txvTrRvName;
+    TextView txvTrRvAccount;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -39,11 +48,23 @@ public class TransferActivity extends AppCompatActivity {
         trTransfer = findViewById(R.id.btnTrTransfer);
         txvTrSuccess = findViewById(R.id.txvTrSuccess);
         txvTrError = findViewById(R.id.txvTrError);
+        receiverName = findViewById(R.id.extTrRvName);
+        receiverAccount = findViewById(R.id.extTrRvAccount);
+        rdbSelf = findViewById(R.id.rdbTrSelf);
+        rdbOthers = findViewById(R.id.rdbTrOthers);
+        txvTrToAccount = findViewById(R.id.txvTrToAccount);
+        txvTrRvAccount = findViewById(R.id.txvTrRvAccount);
+        txvTrRvName = findViewById(R.id.txvTrRvName);
+
+        rdbSelf.setOnCheckedChangeListener(new RadioButtonEvent());
+        rdbOthers.setOnCheckedChangeListener(new RadioButtonEvent());
 
         String[] accountTypes = AccountOperations.getAccountsNames(MainActivity.userAccounts);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, accountTypes);
         trToAccount.setAdapter(arrayAdapter);
         trFromAccount.setAdapter(arrayAdapter);
+
+
 
         trTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,5 +157,27 @@ public class TransferActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public class RadioButtonEvent implements CompoundButton.OnCheckedChangeListener{
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(buttonView.getId()==R.id.rdbTrSelf){
+                if(isChecked){
+                    receiverName.setVisibility(View.INVISIBLE);
+                    receiverAccount.setVisibility(View.INVISIBLE);
+                    txvTrRvName.setVisibility(View.INVISIBLE);
+                    txvTrRvAccount.setVisibility(View.INVISIBLE);
+                }
+            }
+            else if(buttonView.getId()==R.id.rdbTrOthers){
+                if(isChecked){
+                    trToAccount.setSelection(0);
+                    trToAccount.setEnabled(false);
+                    trToAccount.setVisibility(View.INVISIBLE);
+                }
+            }
+        }
     }
 }
