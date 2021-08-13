@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
                 long accessCardNumber = Long.parseLong(String.valueOf(accessCard.getText()));
                 long pinNumber = Long.parseLong(String.valueOf(pin.getText()));
                 boolean isValid = false;
+                loggedInUser = null;
+                userAccounts.clear();
                 for(Account account:accountsList){
                     User user = account.getUser();
                     if(user.getAccessCardNumber()==accessCardNumber && user.getPinNumber()==pinNumber) {
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     public static void initializeBankData(){

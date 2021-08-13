@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +26,7 @@ public class PayBillActivity extends AppCompatActivity {
     private static Context context;
     Spinner spUtilityType, spAccount, spPreviousBills;
     EditText subscriptionNo, amount;
-    Button btnPayBill;
+    Button btnPayBill, btnBack;
     TextView payBillError, payBillSuccess, txvSelectSubsNo, txvSubsNo;
     CheckBox saveForFuture, previousBill;
     //initializing utility types for spinner
@@ -53,6 +54,7 @@ public class PayBillActivity extends AppCompatActivity {
         previousBill = findViewById(R.id.chkPreviousBill);
         txvSelectSubsNo = findViewById(R.id.txvSelectSubsNo);
         txvSubsNo = findViewById(R.id.txvSubsNo);
+        btnBack = findViewById(R.id.btnPbBack);
 
         //initialize spinner for Utility types
         ArrayAdapter aaUtilityType = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, utilityTypes);
@@ -87,6 +89,14 @@ public class PayBillActivity extends AppCompatActivity {
                     subscriptionNo.setVisibility(View.VISIBLE);
                     txvSubsNo.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(),HomeActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -11,7 +11,8 @@ import android.widget.TextView;
 public class HomeActivity extends AppCompatActivity {
     TextView welcomeMessage;
     Button btnBalance, btnDeposit, btnWithdraw;
-    Button btnTransfer, btnPayBill;
+    Button btnTransfer, btnPayBill, btnViewBills;
+    Button btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,8 @@ public class HomeActivity extends AppCompatActivity {
         btnWithdraw = findViewById(R.id.btnWithdraw);
         btnPayBill = findViewById(R.id.btnPayBill);
         btnTransfer = findViewById(R.id.btnTransfer);
+        btnViewBills = findViewById(R.id.btnViewBills);
+        btnLogout = findViewById(R.id.btnLogout);
 
         welcomeMessage.setText("Welcome " + MainActivity.loggedInUser.getName() + "!");
 
@@ -32,8 +35,17 @@ public class HomeActivity extends AppCompatActivity {
         btnTransfer.setOnClickListener(new ButtonEvents());
         btnWithdraw.setOnClickListener(new ButtonEvents());
         btnPayBill.setOnClickListener(new ButtonEvents());
+        btnViewBills.setOnClickListener(new ButtonEvents());
 
-
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.loggedInUser = null;
+                MainActivity.userAccounts.clear();
+                Intent intent = new Intent(getBaseContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     class ButtonEvents implements View.OnClickListener{
@@ -54,6 +66,9 @@ public class HomeActivity extends AppCompatActivity {
             }
             else if(v.getId()==R.id.btnPayBill){
                 intent = new Intent(getBaseContext(), PayBillActivity.class);
+            }
+            else if(v.getId()==R.id.btnViewBills){
+                intent = new Intent(getBaseContext(), ViewBillActivity.class);
             }
             startActivity(intent);
         }
