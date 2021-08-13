@@ -165,9 +165,13 @@
         android:id="@+id/btnPayUtilityBill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#3949AB"
         android:text="Pay Bill"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txvPayBillError" />
 
@@ -194,5 +198,19 @@
         android:inputType="numberDecimal"
         app:layout_constraintStart_toEndOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/spAccount" />
+
+    <Button
+        android:id="@+id/btnPbBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#5B101010"
+        android:text="Back"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txvPayBillError" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

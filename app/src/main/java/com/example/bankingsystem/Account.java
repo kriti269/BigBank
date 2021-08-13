@@ -65,7 +65,7 @@ class AccountOperations
 
     public static Account getAccount(String accountType){
         for(Account account: MainActivity.userAccounts){
-            if(accountType==account.getAccountType())
+            if(accountType.equalsIgnoreCase(account.getAccountType()))
                 return account;
         }
         return null;
