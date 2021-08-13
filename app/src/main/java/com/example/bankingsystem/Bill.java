@@ -66,11 +66,28 @@ public class Bill {
 
 class BillOperations {
     @RequiresApi(api = Build.VERSION_CODES.N)
+    public static List<Bill> getUserBills(List<Bill> bills) {
+        //filter bill paid by logged in user
+        bills = bills.stream()
+                .filter(bill -> bill.getAccount().getUser().getAccessCardNumber() == MainActivity.loggedInUser.getAccessCardNumber())
+                .collect(Collectors.toList());
+        Collections.sort(bills, new Comparator<Bill>() {
+            public int compare(Bill o1, Bill o2) {
+                if (o1.getBillDate() == null || o2.getBillDate() == null)
+                    return 0;
+                return o2.getBillDate().compareTo(o1.getBillDate());
+            }
+        });
+
+        return bills;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<Bill> getPreviousBills(List<Bill> bills, String utilityType) {
         //filter bill paid by logged in user
         bills = bills.stream()
                 .filter(bill -> bill.getUseForFuture() == true &&
-                        bill.getAccount().getUser() == MainActivity.loggedInUser)
+                        bill.getAccount().getUser().getAccessCardNumber() == MainActivity.loggedInUser.getAccessCardNumber())
                 .collect(Collectors.toList());
         Collections.sort(bills, new Comparator<Bill>() {
             public int compare(Bill o1, Bill o2) {
