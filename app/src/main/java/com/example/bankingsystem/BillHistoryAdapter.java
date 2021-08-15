@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+// Adapter to handle display of bills history in list view
 public class BillHistoryAdapter extends BaseAdapter {
     List<Bill> billsHistoryList = new ArrayList<Bill>();
     LayoutInflater layoutInflater;

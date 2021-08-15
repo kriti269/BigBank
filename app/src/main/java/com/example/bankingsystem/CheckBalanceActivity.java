@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+// Activity class to display account balance list
 public class CheckBalanceActivity extends AppCompatActivity {
     ListView accountTypesListView;
     TextView txvBalance;

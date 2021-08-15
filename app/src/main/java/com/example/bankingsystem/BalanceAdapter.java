@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// Adapter to display account balances in list view
 public class BalanceAdapter extends BaseAdapter {
     List<Account> accounts = new ArrayList<Account>();
     LayoutInflater inflater;
