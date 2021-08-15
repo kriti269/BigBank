@@ -14,6 +14,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+// Activity class to show login page to user for
+// validating the credentials entered by user
 public class MainActivity extends AppCompatActivity {
     EditText accessCard;
     EditText pin;
@@ -33,26 +35,35 @@ public class MainActivity extends AppCompatActivity {
         loginError = findViewById(R.id.txvError);
         login = findViewById(R.id.btnLogin);
 
+        //initialize default bank user data
         initializeBankData();
+        //setup login button on click listener
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //read the access card and pin entered by user
                 long accessCardNumber = Long.parseLong(String.valueOf(accessCard.getText()));
                 long pinNumber = Long.parseLong(String.valueOf(pin.getText()));
                 boolean isValid = false;
+                //clear previous entries from static memory if exists
                 loggedInUser = null;
                 userAccounts.clear();
+                //matching logged in user credentials with
+                //existing users in the records
                 for(Account account:accountsList){
                     User user = account.getUser();
                     if(user.getAccessCardNumber()==accessCardNumber && user.getPinNumber()==pinNumber) {
+                        //save the details on successful login
                         isValid = true;
                         loggedInUser = loggedInUser==null?user:loggedInUser;
                         userAccounts.add(account);
                     }
                 }
                 if(!isValid)
-                Toast.makeText(getBaseContext(),"Invalid credentials!",Toast.LENGTH_LONG).show();
+                    //show error message to user
+                    Toast.makeText(getBaseContext(),"Invalid credentials!",Toast.LENGTH_LONG).show();
                 else{
+                    //move the user to home page activity
                     Intent intent = new Intent(getBaseContext(),HomeActivity.class);
                     startActivity(intent);
                 }
@@ -62,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //initializing bank user data on application startup
     public static void initializeBankData(){
         accountsList = new ArrayList<Account>();
         User user = new User(98889991100L, 1234, "Kriti");

@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// Activity class for users to pay utility bills
 public class PayBillActivity extends AppCompatActivity {
     private static Context context;
     Spinner spUtilityType, spAccount, spPreviousBills;
@@ -72,17 +73,23 @@ public class PayBillActivity extends AppCompatActivity {
         spPreviousBills.setOnItemSelectedListener(new SpinnerItemSelectedListener());
         subscriptionNo.setOnFocusChangeListener(new EditTextFocusChangeListener());
         amount.setOnFocusChangeListener(new EditTextFocusChangeListener());
+        //setting up checked change listener to confirm
+        //that user want to copy details of bill from previously paid bills
         previousBill.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            //used this code for using streams in Bill operations class
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
+                    //setup user state for selection from previously paid bills
                     spPreviousBills.setSelection(0);
                     spPreviousBills.setVisibility(View.VISIBLE);
                     txvSelectSubsNo.setVisibility(View.VISIBLE);
                     subscriptionNo.setVisibility(View.INVISIBLE);
                     txvSubsNo.setVisibility(View.INVISIBLE);
                 } else {
+                    //setup default state for user to enter bill details
+                    //in case of new bill paid
                     subscriptionNo.setText("");
                     spPreviousBills.setVisibility(View.INVISIBLE);
                     txvSelectSubsNo.setVisibility(View.INVISIBLE);
@@ -95,6 +102,8 @@ public class PayBillActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //back button listener to move user
+                // back to the home page
                 Intent intent = new Intent(getBaseContext(),HomeActivity.class);
                 startActivity(intent);
             }
@@ -104,11 +113,13 @@ public class PayBillActivity extends AppCompatActivity {
         btnPayBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //remove previous error and success message if exists
                 payBillError.setText("");
                 payBillSuccess.setText("");
                 String amountString = String.valueOf(amount.getText());
                 String selectedAccount = spAccount.getSelectedItem().toString();
                 payBillError.setText("");
+                //validate that values input by user
                 if (spUtilityType.getSelectedItem().toString().equals("Select Utility")) {
                     payBillError.setText("Please select utility to Pay Bill!");
                     return;
@@ -125,13 +136,19 @@ public class PayBillActivity extends AppCompatActivity {
                     payBillError.setText("Please enter amount to Pay Bill!");
                     return;
                 }
+                //setup bill object to pay bill
                 Bill bill = new Bill(spUtilityType.getSelectedItem().toString(),
                         AccountOperations.getAccount(selectedAccount),
                         subscriptionNo.getText().toString(), Double.parseDouble(amountString),
                         new Date(), saveForFuture.isChecked());
+                //saved bill in bills paid static list
                 MainActivity.userBills.add(bill);
+                //withdraw amount from user selected account
                 String result = AccountOperations.withdrawAmount(amountString, selectedAccount);
+                //validate that amount is successfully withdrawn
                 if (result.isEmpty()) {
+                    //setup activity to default state on
+                    //successful bill payment
                     subscriptionNo.setText("");
                     txvSelectSubsNo.setVisibility(View.INVISIBLE);
                     subscriptionNo.setVisibility(View.VISIBLE);
@@ -147,8 +164,11 @@ public class PayBillActivity extends AppCompatActivity {
                     spUtilityType.setSelection(0);
                     payBillSuccess.setText("Bill successfully paid!");
                 } else {
+                    // remove bill from static list if
+                    // bill not paid successfully
                     MainActivity.userBills.remove(bill);
                 }
+                //setup error message
                 payBillError.setText(result);
             }
         });
@@ -158,6 +178,7 @@ public class PayBillActivity extends AppCompatActivity {
     private class EditTextFocusChangeListener implements View.OnFocusChangeListener {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
+            //on focus change remove existing error and success messages
             payBillError.setText("");
             payBillSuccess.setText("");
         }
@@ -165,10 +186,14 @@ public class PayBillActivity extends AppCompatActivity {
 
     //spinner item select event listener
     private class SpinnerItemSelectedListener implements AdapterView.OnItemSelectedListener {
+        //added this code as used streams in bill operation class
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            //validation for handling cases if selection is changed
+            // by user or manually from code
             if (triggered) {
+                //clear messages in case previous bill are changed
                 if(parent.getId() != spPreviousBills.getId()) {
                     subscriptionNo.clearFocus();
                     amount.clearFocus();
@@ -176,23 +201,30 @@ public class PayBillActivity extends AppCompatActivity {
                     payBillSuccess.setText("");
                 }
                 if(parent.getId() == spUtilityType.getId()) {
+                    //setup default values on utility type update
                     amount.setText("");
                     subscriptionNo.setText("");
                     spAccount.setSelection(0);
                     previousBill.setChecked(false);
                     previousBill.setVisibility(View.INVISIBLE);
                     String selectedUtility = spUtilityType.getSelectedItem().toString();
+                    //validate that utility type value is selected or not
                     if(selectedUtility.equals("Select Utility")) {
                         userPreviousBills = new ArrayList<Bill>();
                         spPreviousBills.setAdapter(null);
                         previousBill.setVisibility(View.INVISIBLE);
                     } else {
+                        //get previous bills paid by user for selected utility
                         userPreviousBills = BillOperations.getPreviousBills(MainActivity.userBills, selectedUtility);
+                        //provide user option to select for previous bills
+                        // paid in case it exists in static list
                         if(userPreviousBills.size() == 0) {
+                            //setup list of previous bills
                             ArrayAdapter aaPreviousBills = new ArrayAdapter(context,
                                     R.layout.support_simple_spinner_dropdown_item,
                                     new ArrayList<String>());
                             spPreviousBills.setAdapter(aaPreviousBills);
+                            //show previous bill spinner to user
                             previousBill.setVisibility(View.INVISIBLE);
                         } else {
                             //initializing previous Bills paid in case of previous bill saved for future
@@ -207,12 +239,17 @@ public class PayBillActivity extends AppCompatActivity {
                     }
                 } else if(parent.getId() == spPreviousBills.getId()) {
                     String billSelected = spPreviousBills.getSelectedItem().toString();
-                    //remove bill default selections on changes
+                    //validate user selection for previous bill paid selection
                     if(billSelected == "Select Subs Number") {
+                        //remove selected bill details in case
+                        //no bills are selected
                         subscriptionNo.setText("");
                         amount.setText("");
                         spAccount.setSelection(0);
                     } else {
+                        //get details of previous bill in case
+                        //previously paid bill is selected by user
+                        //for current bill payment
                         selectedBill = (userPreviousBills.stream()
                                 .filter(previousBill -> previousBill.subscriptionNo == billSelected)
                                 .collect(Collectors.toList())).get(0);
@@ -224,6 +261,8 @@ public class PayBillActivity extends AppCompatActivity {
                 }
             } else {
                 if(parent.getId() == spAccount.getId()) {
+                    //if account spinner selected manually
+                    //update back to handle updates from user
                     triggered = true;
                 }
             }

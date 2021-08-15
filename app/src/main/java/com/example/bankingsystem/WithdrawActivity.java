@@ -17,7 +17,9 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// Activity class to withdraw money
 public class WithdrawActivity extends AppCompatActivity {
+    // declare all widgets
     EditText wdAmount;
     Spinner wdAccount;
     Button wdBack, wdWithdraw;
@@ -30,6 +32,7 @@ public class WithdrawActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_withdraw);
 
+        // initialize widgets
         wdAmount = findViewById(R.id.extWdAmount);
         wdAccount = findViewById(R.id.spWdAccount);
         wdBack = findViewById(R.id.btnWdBack);
@@ -37,10 +40,12 @@ public class WithdrawActivity extends AppCompatActivity {
         txvWdSuccess = findViewById(R.id.txvWdSuccess);
         txvWdError = findViewById(R.id.txvWdError);
 
+        // get all accounts of a user and set it in a spinner
         String[] accountTypes = AccountOperations.getAccountsNames(MainActivity.userAccounts);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, accountTypes);
         wdAccount.setAdapter(arrayAdapter);
 
+        // clear success and error messages on changing amount values
         wdAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -49,6 +54,7 @@ public class WithdrawActivity extends AppCompatActivity {
             }
         });
 
+        // clear success and error messages on changing account values
         wdAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -67,6 +73,7 @@ public class WithdrawActivity extends AppCompatActivity {
             }
         });
 
+        // withdraw amount on button click
         wdWithdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +96,7 @@ public class WithdrawActivity extends AppCompatActivity {
             }
         });
 
+        // return to home on back button click
         wdBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

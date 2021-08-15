@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+// Activity class to show home page to user with account related options
 public class HomeActivity extends AppCompatActivity {
     TextView welcomeMessage;
     Button btnBalance, btnDeposit, btnWithdraw;
@@ -19,6 +20,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //initializing view items
         welcomeMessage = findViewById(R.id.txvWelcome);
         btnBalance = findViewById(R.id.btnCheckBalance);
         btnDeposit = findViewById(R.id.btnDeposit);
@@ -28,8 +30,10 @@ public class HomeActivity extends AppCompatActivity {
         btnViewBills = findViewById(R.id.btnViewBills);
         btnLogout = findViewById(R.id.btnLogout);
 
+        //set welcome message for user on top
         welcomeMessage.setText("Welcome " + MainActivity.loggedInUser.getName() + "!");
 
+        //added respective click events on button click
         btnBalance.setOnClickListener(new ButtonEvents());
         btnDeposit.setOnClickListener(new ButtonEvents());
         btnTransfer.setOnClickListener(new ButtonEvents());
@@ -37,9 +41,12 @@ public class HomeActivity extends AppCompatActivity {
         btnPayBill.setOnClickListener(new ButtonEvents());
         btnViewBills.setOnClickListener(new ButtonEvents());
 
+        //setup logout button click listener to logout user
+        //and move user to login screen
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //remove logged in user details from static variables
                 MainActivity.loggedInUser = null;
                 MainActivity.userAccounts.clear();
                 Intent intent = new Intent(getBaseContext(),MainActivity.class);
@@ -52,6 +59,8 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = null;
+            //handle click event based on button id
+            //forward the user to respective activity
             if(v.getId()==R.id.btnCheckBalance){
                 intent = new Intent(getBaseContext(), CheckBalanceActivity.class);
             }
@@ -70,6 +79,7 @@ public class HomeActivity extends AppCompatActivity {
             else if(v.getId()==R.id.btnViewBills){
                 intent = new Intent(getBaseContext(), ViewBillActivity.class);
             }
+            //starting the next activity
             startActivity(intent);
         }
     }

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// POJO to store bill information
 public class Bill {
     public String utilityType;
     public Account account;
@@ -64,7 +65,9 @@ public class Bill {
     public void setUseForFuture(boolean useForFuture) { this.useForFuture = useForFuture; }
 }
 
+// Class for bill related operations
 class BillOperations {
+    //get all bills belonging to logged in user
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<Bill> getUserBills(List<Bill> bills) {
         //filter bill paid by logged in user
@@ -82,6 +85,7 @@ class BillOperations {
         return bills;
     }
 
+    // get saved bills for a utility type
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<Bill> getPreviousBills(List<Bill> bills, String utilityType) {
         //filter bill paid by logged in user
@@ -114,6 +118,7 @@ class BillOperations {
         return previousBills;
     }
 
+    // Get subscription numbers list from previously saved bills
     public static String[] getPreviousBillSubsNo(List<Bill> bills) {
         int arraySize = bills.size();
         String[] billSubsName = new String[arraySize+1];

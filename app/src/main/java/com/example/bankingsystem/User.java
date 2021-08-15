@@ -1,5 +1,6 @@
 package com.example.bankingsystem;
 
+// POJO class to store user related information
 public class User {
     public long accessCardNumber;
     public long pinNumber;
